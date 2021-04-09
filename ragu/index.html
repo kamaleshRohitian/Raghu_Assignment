@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <title>Loan Balance Calculator</title>
+
+    <!-- Bootstrap for css-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+
+	<!-- Bootstrap for js-->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- Custom  css styles -->
+<style type="text/css">
+body {
+	background-image: url("https://p4.wallpaperbetter.com/wallpaper/340/330/455/account-accountant-accounting-analysis-wallpaper-preview.jpg");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color: #464646;
+}
+#values:hover{
+	background-color: black;
+	font-size: 20px;
+	color: white;
+}
+</style>
+</head>
+<body>
+    <div class="container-fluid"> 
+       <h1> EMI Loan Calculator</h1>
+           <div class="starter-template">
+               <form class="form-group">
+               	   <div class="row">
+               	   	   <div class="col-sm-2">
+               	   	   	   <label for="Loan Amount" style="color: white" class="control-label">Total Loan Amount</label>
+               	   	   </div>
+               	   	   <div class="col-sm-2">
+		                   <input type="number"  class="form-control" id="Loan" placeholder="Enter the loan Amount" required="" min=1>
+	                   </div>
+               	   </div>
+               	   <div class="row">
+               	   	   <div class="col-sm-2">
+               	   	   	   <label for="interest" style="color: white" class="control-label">Monthly Interest in %</label>
+               	   	   </div>
+               	   	   <div class="col-sm-2">
+		                   <input type="number" class="form-control" id="percentage" placeholder="Enter the interest in %" min=1>
+	                   </div>
+               	   </div>
+               	   <div class="row">
+               	   	   <div class="col-sm-2">
+               	   	   	   <label for="month" style="color: white" class="control-label">Month in Tenures</label>
+               	   	   </div>
+               	   	   <div class="col-sm-2">
+		                  <input type="number" class="form-control" id="Month" placeholder="Enter the total month" min=1>
+	                   </div>
+               	   </div>
+               	   <div class="row">
+               	   	   <div class="col-sm-1">
+               	   	   	   <button onclick="return CalculateEmi();" class="btn btn-success">Submit</button>
+               	   	   </div>
+               	   	   <div class="col-sm-1">
+		                   <input type="reset" class="btn btn-danger" value="clear">	
+		               </div>
+               	   </div>
+               </form>
+<div id="result">
+</div>
+<!-- javascript for calculating emi -->
+<script type="text/javascript">
+function CalculateEmi(){
+document.getElementById("result").innerHTML = "";
+var A=document.getElementById("Loan").value;
+var r=document.getElementById("percentage").value;
+var R=(r/100)/12;
+var N=document.getElementById("Month").value;
+var Payment=((A*R)*(Math.pow((1+R),N)))/(Math.pow((1+R),N)-1);
+if(A=="" || r=="" || N=="")
+{
+  alert("Please fill all the fields!...");
+}
+else
+{
+var num=1;
+var OB=1;
+var result = "";
+result += "<div class='row' >";
+result += "<div class='col-sm-1'><h2>No</h2></div>";
+result += "<div class='col-sm-2'><h2>Payment Amount</h2></div>";
+result += "<div class='col-sm-2'><h2>Principal Amount</h2></div>";
+result += "<div class='col-sm-2'><h2>Interest Amount</h2></div>";
+result += "<div class='col-sm-2'><h2>Outstanding Balance</h2></div>";
+result += "</div>";
+result += "<br>";
+while(N != 0){
+    var pp  = Payment/(Math.pow((1+R),N));
+    
+    var INT = Payment - pp;
+    
+    OB      = (INT/R) - pp;
+    
+	result += "<div class='row'>";
+	result += "<div class='col-sm-1' style='color:white;' id='values'>"+num+"</div>";
+	result += "<div class='col-sm-2' style='color:white;' id='values'>"+Payment+"</div>";
+	result += "<div class='col-sm-2' style='color:white;' id='values'>"+pp+"</div>";
+	result += "<div class='col-sm-2' style='color:white;' id='values'>"+INT+"</div>";
+	result += "<div class='col-sm-2' style='color:white;' id='values'>"+OB+"</div>";
+	result += "</div>";
+	result +="<br>";
+	num++;
+    N--;
+}
+var div = document.createElement('div');
+div.innerHTML = result;
+document.getElementById('result').appendChild(div);
+}
+return false;
+}
+</script>
+</div>
+</div>
+</body>
+</html>
